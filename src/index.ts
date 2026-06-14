@@ -114,10 +114,93 @@ export type MarketplaceDriverPaymentProofParams =
   | Record<string, unknown>
   | MarketplaceDriverEncryptedPaymentProofParams
 
-export type MarketplaceDriverPaymentProof = {
+export type MarketplaceDriverPaymentTermAmount = {
+  value: string
+  denomination: string
+  decimals: number
+  currency?: string
+  assetId?: string
+}
+
+export type MarketplaceDriverPaymentTermParty = {
+  role: string
+  id: string
+}
+
+export type MarketplaceDriverPaymentTermControl = {
+  role: string
+  id?: string
+  weight?: number
+}
+
+export type MarketplaceDriverPaymentTermOutput = {
+  role?: string
+  id?: string
+  amount: MarketplaceDriverPaymentTermAmount
+}
+
+export type MarketplaceDriverPaymentTermPathResult =
+  | {
+      type: 'terminal'
+      outputs: MarketplaceDriverPaymentTermOutput[]
+    }
+  | {
+      type: 'lock'
+      lock: MarketplaceDriverPaymentTermLock
+    }
+
+export type MarketplaceDriverPaymentTermPath = {
+  id: string
+  requires?: Array<{
+    role: string
+    condition?: 'signature' | 'timeout' | 'secret' | 'preimage' | string
+  }>
+  after?: number
+  result: MarketplaceDriverPaymentTermPathResult
+}
+
+export type MarketplaceDriverPaymentTermLock = {
+  id: string
+  policyId: string
+  kind: 'threshold' | 'timeout' | 'direct' | string
+  amount: MarketplaceDriverPaymentTermAmount
+  controls: MarketplaceDriverPaymentTermControl[]
+  threshold?: number
+  conditions?: Record<string, unknown>
+  paths?: MarketplaceDriverPaymentTermPath[]
+}
+
+export type MarketplaceDriverPaymentTerms = {
+  version: 1
+  asset: MarketplaceDriverPaymentTermAmount
+  parties: MarketplaceDriverPaymentTermParty[]
+  lock: MarketplaceDriverPaymentTermLock
+}
+
+export type MarketplaceDriverSealedPaymentTerms = {
+  version: 1
+  mode: 'sealed:v1'
+  proofId: string
+  payload: string
+}
+
+export type MarketplaceDriverPublicPaymentProof = {
   driver: string
+  terms: MarketplaceDriverPaymentTerms
+  sealedTerms?: never
   params: MarketplaceDriverPaymentProofParams
 }
+
+export type MarketplaceDriverSealedTermsPaymentProof = {
+  driver: string
+  terms?: never
+  sealedTerms: MarketplaceDriverSealedPaymentTerms
+  params: MarketplaceDriverPaymentProofParams
+}
+
+export type MarketplaceDriverPaymentProof =
+  | MarketplaceDriverPublicPaymentProof
+  | MarketplaceDriverSealedTermsPaymentProof
 
 export type MarketplaceDriverValidationStatus = 'valid' | 'invalid' | 'pending' | 'expired' | 'unverifiable'
 
@@ -242,22 +325,77 @@ export type MarketplaceDriverPaymentState<Proof extends MarketplaceDriverPayment
       data?: Record<string, unknown>
     }
 
-export type MarketplaceDriverRecoveryItem<
+export type MarketplaceDriverPaymentSweepReason = 'payment' | 'settlement' | 'retry'
+
+export type MarketplaceDriverPaymentSweepInput<
   Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof,
   Expected extends MarketplaceDriverValidationExpected = MarketplaceDriverValidationExpected,
 > = {
-  purpose: 'order' | 'bid'
-  group?: unknown
-  payment?: unknown
+  paymentId: string
+  tradeId: string
+  orderGroupId: string
+  listingAnchor: string
+  createdAt: number
   proof: Proof
   expected?: Expected
+  amount?: MarketplaceDriverAmount
+  reason?: MarketplaceDriverPaymentSweepReason
 }
 
-export type MarketplaceDriverRecoveryState<Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof> =
+export type MarketplaceDriverPaymentSweepState<Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof> =
   | { type: 'noop'; data?: Record<string, unknown> }
   | { type: 'progress'; status: string; data?: Record<string, unknown> }
-  | { type: 'recovered'; data?: Record<string, unknown> }
-  | { type: 'settlement_ready'; proof: Proof; data?: Record<string, unknown> }
+  | { type: 'swept'; proof?: Proof | null; data?: Record<string, unknown> }
+
+export type MarketplaceDriverPaymentSettlementOutput = {
+  role?: string
+  pubkey?: string
+  amount?: string
+  data?: Record<string, unknown>
+}
+
+export type MarketplaceDriverPaymentSettlementIntent<
+  Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof,
+  Expected extends MarketplaceDriverValidationExpected = MarketplaceDriverValidationExpected,
+> = {
+  paymentId: string
+  tradeId: string
+  orderGroupId: string
+  listingAnchor: string
+  createdAt: number
+  action: string
+  proof: Proof
+  amount: MarketplaceDriverAmount
+  expected?: Expected
+  outputs?: MarketplaceDriverPaymentSettlementOutput[]
+  reason?: string
+  data?: Record<string, unknown>
+}
+
+export type MarketplaceDriverPaymentSettlementState<Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof> =
+  | { type: 'progress'; status: string; data?: Record<string, unknown> }
+  | {
+      type: 'settlement_ready'
+      proof: Proof
+      inputs?: Array<Record<string, unknown>>
+      outputs?: MarketplaceDriverPaymentSettlementOutput[]
+      data?: Record<string, unknown>
+    }
+  | {
+      type: 'completed'
+      proof?: Proof | null
+      inputs?: Array<Record<string, unknown>>
+      outputs?: MarketplaceDriverPaymentSettlementOutput[]
+      data?: Record<string, unknown>
+    }
+
+export type MarketplaceDriverSwapResumeContext<Discovery = unknown> = MarketplaceDriverStartContext<Discovery>
+
+export type MarketplaceDriverSwapResumeState =
+  | { type: 'noop'; data?: Record<string, unknown> }
+  | { type: 'progress'; status: string; data?: Record<string, unknown> }
+  | { type: 'resumed'; data?: Record<string, unknown> }
+  | { type: 'failed'; error: string; data?: Record<string, unknown> }
 
 export type MarketplaceDriverAuctionSettlementIntent<
   Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof,
@@ -368,11 +506,16 @@ export type MarketplaceDriverPolicy<
   Intent extends MarketplaceDriverPaymentIntent = MarketplaceDriverPaymentIntent,
   ValidationRequest extends MarketplaceDriverValidationRequest = MarketplaceDriverValidationRequest,
   ValidationResult extends MarketplaceDriverValidationResult = MarketplaceDriverValidationResult,
-  RecoveryItem extends MarketplaceDriverRecoveryItem = MarketplaceDriverRecoveryItem,
-  RecoveryState extends MarketplaceDriverRecoveryState = MarketplaceDriverRecoveryState,
+  SweepInput extends MarketplaceDriverPaymentSweepInput = MarketplaceDriverPaymentSweepInput,
+  SweepState extends MarketplaceDriverPaymentSweepState = MarketplaceDriverPaymentSweepState,
+  SettlementIntent extends MarketplaceDriverPaymentSettlementIntent = MarketplaceDriverPaymentSettlementIntent,
+  SettlementState extends MarketplaceDriverPaymentSettlementState = MarketplaceDriverPaymentSettlementState,
+  SwapResumeContext extends MarketplaceDriverSwapResumeContext = MarketplaceDriverSwapResumeContext,
+  SwapResumeState extends MarketplaceDriverSwapResumeState = MarketplaceDriverSwapResumeState,
 > = {
   method: string
   id?: string
+  label?: string
   purpose: 'order' | 'bid'
   family: 'escrow' | 'auction' | string
   policies(): Policy[]
@@ -383,8 +526,12 @@ export type MarketplaceDriverPolicy<
   startup?: (
     context: MarketplaceDriverStartContext,
   ) => void | MarketplaceDriverStartResult | Promise<void | MarketplaceDriverStartResult>
+  resumeSwapOperations?: (
+    context: SwapResumeContext,
+  ) => AsyncIterable<SwapResumeState> | Promise<AsyncIterable<SwapResumeState>>
   pay(intent: Intent): AsyncIterable<State> | Promise<AsyncIterable<State>>
-  recover?: (payment: RecoveryItem) => AsyncIterable<RecoveryState> | Promise<AsyncIterable<RecoveryState>>
+  sweepPayment?: (payment: SweepInput) => AsyncIterable<SweepState> | Promise<AsyncIterable<SweepState>>
+  settlePayment?: (payment: SettlementIntent) => AsyncIterable<SettlementState> | Promise<AsyncIterable<SettlementState>>
   validatePayment?: (request: ValidationRequest) => Promise<ValidationResult>
 }
 
@@ -395,8 +542,12 @@ export type MarketplaceDriverOrderPolicy<
   Intent extends MarketplaceDriverPaymentIntent = MarketplaceDriverPaymentIntent,
   ValidationRequest extends MarketplaceDriverValidationRequest = MarketplaceDriverValidationRequest,
   ValidationResult extends MarketplaceDriverValidationResult = MarketplaceDriverValidationResult,
-  RecoveryItem extends MarketplaceDriverRecoveryItem = MarketplaceDriverRecoveryItem,
-  RecoveryState extends MarketplaceDriverRecoveryState = MarketplaceDriverRecoveryState,
+  SweepInput extends MarketplaceDriverPaymentSweepInput = MarketplaceDriverPaymentSweepInput,
+  SweepState extends MarketplaceDriverPaymentSweepState = MarketplaceDriverPaymentSweepState,
+  SettlementIntent extends MarketplaceDriverPaymentSettlementIntent = MarketplaceDriverPaymentSettlementIntent,
+  SettlementState extends MarketplaceDriverPaymentSettlementState = MarketplaceDriverPaymentSettlementState,
+  SwapResumeContext extends MarketplaceDriverSwapResumeContext = MarketplaceDriverSwapResumeContext,
+  SwapResumeState extends MarketplaceDriverSwapResumeState = MarketplaceDriverSwapResumeState,
   ArbitrationIntent = unknown,
   ArbitrationState = never,
 > = MarketplaceDriverPolicy<
@@ -406,8 +557,12 @@ export type MarketplaceDriverOrderPolicy<
   Intent,
   ValidationRequest,
   ValidationResult,
-  RecoveryItem,
-  RecoveryState
+  SweepInput,
+  SweepState,
+  SettlementIntent,
+  SettlementState,
+  SwapResumeContext,
+  SwapResumeState
 > & {
   purpose: 'order'
   family: 'escrow'
@@ -421,8 +576,12 @@ export type MarketplaceDriverAuctionPolicy<
   Intent extends MarketplaceDriverPaymentIntent = MarketplaceDriverPaymentIntent,
   ValidationRequest extends MarketplaceDriverValidationRequest = MarketplaceDriverValidationRequest,
   ValidationResult extends MarketplaceDriverValidationResult = MarketplaceDriverValidationResult,
-  RecoveryItem extends MarketplaceDriverRecoveryItem = MarketplaceDriverRecoveryItem,
-  RecoveryState extends MarketplaceDriverRecoveryState = MarketplaceDriverRecoveryState,
+  SweepInput extends MarketplaceDriverPaymentSweepInput = MarketplaceDriverPaymentSweepInput,
+  SweepState extends MarketplaceDriverPaymentSweepState = MarketplaceDriverPaymentSweepState,
+  PaymentSettlementIntent extends MarketplaceDriverPaymentSettlementIntent = MarketplaceDriverPaymentSettlementIntent,
+  PaymentSettlementState extends MarketplaceDriverPaymentSettlementState = MarketplaceDriverPaymentSettlementState,
+  SwapResumeContext extends MarketplaceDriverSwapResumeContext = MarketplaceDriverSwapResumeContext,
+  SwapResumeState extends MarketplaceDriverSwapResumeState = MarketplaceDriverSwapResumeState,
   SettlementIntent extends MarketplaceDriverAuctionSettlementIntent = MarketplaceDriverAuctionSettlementIntent,
   SettlementResult extends MarketplaceDriverAuctionSettlementResult = MarketplaceDriverAuctionSettlementResult,
   ArbitrationIntent = never,
@@ -434,8 +593,12 @@ export type MarketplaceDriverAuctionPolicy<
   Intent,
   ValidationRequest,
   ValidationResult,
-  RecoveryItem,
-  RecoveryState
+  SweepInput,
+  SweepState,
+  PaymentSettlementIntent,
+  PaymentSettlementState,
+  SwapResumeContext,
+  SwapResumeState
 > & {
   purpose: 'bid'
   family: 'auction'
@@ -464,6 +627,7 @@ export type MarketplacePolicyBaseOptions<
 > = {
   method: string
   id?: string
+  label?: string
   purpose: Purpose
   family: Family
   initialState: RuntimeState
@@ -478,8 +642,12 @@ export abstract class MarketplacePolicyBase<
   Intent extends MarketplaceDriverPaymentIntent = MarketplaceDriverPaymentIntent,
   ValidationRequest extends MarketplaceDriverValidationRequest = MarketplaceDriverValidationRequest,
   ValidationResult extends MarketplaceDriverValidationResult = MarketplaceDriverValidationResult,
-  RecoveryItem extends MarketplaceDriverRecoveryItem = MarketplaceDriverRecoveryItem,
-  RecoveryState extends MarketplaceDriverRecoveryState = MarketplaceDriverRecoveryState,
+  SweepInput extends MarketplaceDriverPaymentSweepInput = MarketplaceDriverPaymentSweepInput,
+  SweepState extends MarketplaceDriverPaymentSweepState = MarketplaceDriverPaymentSweepState,
+  SettlementIntent extends MarketplaceDriverPaymentSettlementIntent = MarketplaceDriverPaymentSettlementIntent,
+  SettlementState extends MarketplaceDriverPaymentSettlementState = MarketplaceDriverPaymentSettlementState,
+  SwapResumeContext extends MarketplaceDriverSwapResumeContext = MarketplaceDriverSwapResumeContext,
+  SwapResumeState extends MarketplaceDriverSwapResumeState = MarketplaceDriverSwapResumeState,
   Purpose extends MarketplaceDriverPaymentIntent['purpose'] = MarketplaceDriverPaymentIntent['purpose'],
   Family extends string = string,
 > implements MarketplaceDriverPolicy<
@@ -489,11 +657,16 @@ export abstract class MarketplacePolicyBase<
   Intent,
   ValidationRequest,
   ValidationResult,
-  RecoveryItem,
-  RecoveryState
+  SweepInput,
+  SweepState,
+  SettlementIntent,
+  SettlementState,
+  SwapResumeContext,
+  SwapResumeState
 > {
   readonly method: string
   readonly id?: string
+  readonly label?: string
   readonly purpose: Purpose
   readonly family: Family
 
@@ -503,6 +676,7 @@ export abstract class MarketplacePolicyBase<
   protected constructor(options: MarketplacePolicyBaseOptions<RuntimeState, Purpose, Family>) {
     this.method = options.method
     if (options.id !== undefined) this.id = options.id
+    if (options.label !== undefined) this.label = options.label
     this.purpose = options.purpose
     this.family = options.family
     this.currentState = options.initialState
@@ -586,34 +760,65 @@ export abstract class MarketplacePolicyBase<
     }
   }
 
-  async *recover(payment: RecoveryItem): AsyncIterable<RecoveryState> {
-    yield this.noOpRecoveryState({
-      reason: `${this.method} recovery is handled by startup`,
-      purpose: payment.purpose,
+  async *sweepPayment(payment: SweepInput): AsyncIterable<SweepState> {
+    yield this.noOpSweepState({
+      reason: `${this.method} has no payment sweep hook`,
       driver: payment.proof.driver,
+      paymentId: payment.paymentId,
     })
   }
 
-  protected noOpRecoveryState(data: Record<string, unknown>): RecoveryState {
+  protected noOpSweepState(data: Record<string, unknown>): SweepState {
     return {
       type: 'noop',
       data,
-    } as RecoveryState
+    } as SweepState
   }
 
-  protected progressRecoveryState(status: string, data?: Record<string, unknown>): RecoveryState {
+  protected progressSweepState(status: string, data?: Record<string, unknown>): SweepState {
     return {
       type: 'progress',
       status,
       ...(data ? { data } : {}),
-    } as RecoveryState
+    } as SweepState
   }
 
-  protected recoveredState(data?: Record<string, unknown>): RecoveryState {
+  protected sweptState(proof?: MarketplaceDriverPaymentProof | null, data?: Record<string, unknown>): SweepState {
     return {
-      type: 'recovered',
+      type: 'swept',
+      ...(proof !== undefined ? { proof } : {}),
       ...(data ? { data } : {}),
-    } as RecoveryState
+    } as SweepState
+  }
+
+  protected noOpSwapResumeState(data: Record<string, unknown>): SwapResumeState {
+    return {
+      type: 'noop',
+      data,
+    } as SwapResumeState
+  }
+
+  protected progressSwapResumeState(status: string, data?: Record<string, unknown>): SwapResumeState {
+    return {
+      type: 'progress',
+      status,
+      ...(data ? { data } : {}),
+    } as SwapResumeState
+  }
+
+  protected resumedSwapOperationsState(data?: Record<string, unknown>): SwapResumeState {
+    return {
+      type: 'resumed',
+      ...(data ? { data } : {}),
+    } as SwapResumeState
+  }
+
+  protected failedSwapResumeState(error: string, data?: Record<string, unknown>): SwapResumeState {
+    return {
+      type: 'failed',
+      error,
+      ...(data ? { data } : {}),
+    } as SwapResumeState
   }
 
   protected validationResult(
