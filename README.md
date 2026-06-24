@@ -2,6 +2,16 @@
 
 Shared TypeScript contracts for NMDK marketplace payment drivers.
 
+## Docs
+
+Package-owned docs live in [`docs`](docs/README.md). Start with
+[`docs/getting-started.md`](docs/getting-started.md) and regenerate the API
+reference with:
+
+```sh
+npm run docs:api
+```
+
 This package intentionally contains only driver-facing data shapes and interfaces. Nostr event parsing,
 publishing, relay access, and runtime session behavior belong in `nostr-tools/marketplace`; chain,
 mint, swap, and escrow implementation details belong in concrete driver packages.
