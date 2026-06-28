@@ -337,6 +337,8 @@ export type MarketplaceDriverPaymentSweepInput<
   listingAnchor: string
   createdAt: number
   proof: Proof
+  seed?: string
+  accountIndex?: number
   expected?: Expected
   amount?: MarketplaceDriverAmount
   reason?: MarketplaceDriverPaymentSweepReason
@@ -618,6 +620,21 @@ export type MarketplaceDriverPolicyImplementation = MarketplaceDriverOrderPolicy
 export type MarketplacePaymentDriver<Policy extends MarketplaceDriverPolicyImplementation = MarketplaceDriverPolicyImplementation> = {
   method: string
   policies(): Policy[]
+}
+
+export type MarketplaceDriverCreateInvoice = (
+  amountSats: number,
+  description?: string,
+) => string | Promise<string>
+
+export type MarketplaceDriverWithdrawalOptions = {
+  createInvoice: MarketplaceDriverCreateInvoice
+}
+
+export type MarketplaceDriverConstructorOptions = {
+  appId?: string
+  logger?: MarketplaceDriverLogger
+  withdrawals?: MarketplaceDriverWithdrawalOptions
 }
 
 export type MarketplacePolicyBaseOptions<
