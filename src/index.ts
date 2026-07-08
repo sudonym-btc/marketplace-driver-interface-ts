@@ -301,6 +301,16 @@ export type MarketplaceDriverBolt11PaymentRequest = {
   data?: Record<string, unknown>
 }
 
+export type MarketplaceDriverPaymentProgressStage =
+  | 'awaiting_external_payment'
+  | 'external_payment_detected'
+  | 'escrow_finalizing'
+  | 'proof_publishing'
+
+export type MarketplaceDriverPaymentProgressData = Record<string, unknown> & {
+  stage?: MarketplaceDriverPaymentProgressStage
+}
+
 export type MarketplaceDriverPaymentState<Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof> =
   | {
       type: 'payment_required'
@@ -312,7 +322,7 @@ export type MarketplaceDriverPaymentState<Proof extends MarketplaceDriverPayment
       type: 'payment_progress'
       status: string
       proof?: Proof | null
-      data?: Record<string, unknown>
+      data?: MarketplaceDriverPaymentProgressData
     }
   | {
       type: 'paid'
