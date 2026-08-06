@@ -24,10 +24,9 @@ validation request is optional compatibility data; a validator must not require
 an order, bid, or listing event to decide whether the proof is valid.
 
 ```ts
-export type MarketplaceDriverPaymentProof = {
-  driver: string
-  params: Record<string, unknown> | MarketplaceDriverEncryptedPaymentProofParams
-}
+export type MarketplaceDriverPaymentProof =
+  | { driver: string; terms: MarketplaceDriverPaymentTerms; params: MarketplaceDriverPaymentProofParams }
+  | { driver: string; sealedTerms: MarketplaceDriverSealedPaymentTerms; params: MarketplaceDriverPaymentProofParams }
 
 export type MarketplaceDriverEncryptedPaymentProofParams = {
   encrypted: true
@@ -42,6 +41,24 @@ When `params.encrypted === true`, adapters pass `decryptParams` on
 `MarketplaceDriverValidationRequest`. Concrete drivers should call
 `resolveMarketplaceDriverPaymentProofParams(request.proof, request.decryptParams)`
 before reading method-specific fields.
+
+Policies declare their minimum proof disclosure with `proofSensitivity`:
+
+- `public` permits a clear proof.
+- `confidential` requires encrypted proof parameters.
+- `secret` requires a sealed complete proof.
+
+Runtimes may apply stronger privacy, but must never weaken the policy minimum.
+Protected proof construction must fail when no encryption recipient is
+available.
+
+## Financial action receipts
+
+Auction refund and promotion calls carry a stable `operationId`. A driver must
+return a completed `MarketplaceDriverFinancialActionReceipt` with the same id
+only after the external financial effect is complete or has been recovered
+idempotently. Returning rewritten proof metadata without moving funds is not a
+successful settlement.
 
 ## Validated terms
 

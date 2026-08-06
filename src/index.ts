@@ -72,6 +72,16 @@ export type MarketplaceDriverPolicyDescriptor = {
   data?: Record<string, unknown>
 }
 
+/**
+ * Minimum disclosure protection required by a payment policy.
+ *
+ * `confidential` keeps driver parameters off the public event while leaving
+ * independently verifiable payment terms visible. `secret` seals the complete
+ * payment proof. Runtimes MUST treat this value as a minimum and may apply a
+ * stricter mode at the caller's request.
+ */
+export type MarketplaceDriverProofSensitivity = 'public' | 'confidential' | 'secret'
+
 export type MarketplaceDriverContract = {
   type: string
   chainId?: number
@@ -415,6 +425,8 @@ export type MarketplaceDriverAuctionSettlementIntent<
 > = {
   purpose: 'bid'
   action: 'auction_refund' | 'auction_promote'
+  /** Stable retry key chosen by the runtime for this financial action. */
+  operationId: string
   seed?: string
   group?: unknown
   bid?: unknown
@@ -431,8 +443,20 @@ export type MarketplaceDriverAuctionSettlementIntent<
   data?: Record<string, unknown>
 }
 
+export type MarketplaceDriverFinancialActionReceipt = {
+  status: 'completed'
+  /** MUST equal the operation id supplied in the settlement intent. */
+  operationId: string
+  /** Provider quote, transaction, melt, or other externally verifiable id. */
+  externalId?: string
+  /** Public, non-secret evidence needed to reconcile the completed action. */
+  evidence?: Record<string, unknown>
+}
+
 export type MarketplaceDriverAuctionSettlementResult<Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof> = {
   proof: Proof
+  /** Proof that the requested financial action actually completed. */
+  receipt: MarketplaceDriverFinancialActionReceipt
   inputs?: Array<Record<string, unknown>>
   outputs?: Array<Record<string, unknown>>
   data?: Record<string, unknown>
@@ -528,6 +552,7 @@ export type MarketplaceDriverPolicy<
   method: string
   id?: string
   label?: string
+  proofSensitivity?: MarketplaceDriverProofSensitivity
   purpose: 'order' | 'bid'
   family: 'escrow' | 'auction' | string
   policies(): Policy[]
@@ -655,6 +680,7 @@ export type MarketplacePolicyBaseOptions<
   method: string
   id?: string
   label?: string
+  proofSensitivity?: MarketplaceDriverProofSensitivity
   purpose: Purpose
   family: Family
   initialState: RuntimeState
@@ -694,6 +720,7 @@ export abstract class MarketplacePolicyBase<
   readonly method: string
   readonly id?: string
   readonly label?: string
+  readonly proofSensitivity?: MarketplaceDriverProofSensitivity
   readonly purpose: Purpose
   readonly family: Family
 
@@ -704,6 +731,7 @@ export abstract class MarketplacePolicyBase<
     this.method = options.method
     if (options.id !== undefined) this.id = options.id
     if (options.label !== undefined) this.label = options.label
+    if (options.proofSensitivity !== undefined) this.proofSensitivity = options.proofSensitivity
     this.purpose = options.purpose
     this.family = options.family
     this.currentState = options.initialState

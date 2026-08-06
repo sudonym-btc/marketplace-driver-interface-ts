@@ -4,6 +4,10 @@
   "description": "Shared TypeScript interfaces for NMDK marketplace payment drivers.",
   "type": "module",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sudonym-btc/marketplace-driver-interface-ts.git"
@@ -19,9 +23,10 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "prepack": "npm run build",
     "check": "tsc --noEmit",
     "docs": "npm run docs:api",
-    "docs:api": "typedoc --plugin typedoc-plugin-markdown --tsconfig tsconfig.json --name \"Marketplace Driver Interface\" --out docs/reference --readme none --githubPages false --hideBreadcrumbs true --hidePageHeader true src/index.ts"
+    "docs:api": "typedoc --plugin typedoc-plugin-markdown --tsconfig tsconfig.json --name \"Marketplace Driver Interface\" --out docs/reference --readme none --githubPages false --hideBreadcrumbs true --hidePageHeader true --disableSources src/index.ts"
   },
   "devDependencies": {
     "typedoc": "0.28.19",
