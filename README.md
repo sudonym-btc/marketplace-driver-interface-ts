@@ -58,7 +58,9 @@ Auction refund and promotion calls carry a stable `operationId`. A driver must
 return a completed `MarketplaceDriverFinancialActionReceipt` with the same id
 only after the external financial effect is complete or has been recovered
 idempotently. Returning rewritten proof metadata without moving funds is not a
-successful settlement.
+successful settlement. Receipt evidence and result `inputs`, `outputs`, and
+`data` are driver-local objects; a generic runtime must not copy them into a
+public event or durable journal without an explicit schema-specific allowlist.
 
 ## Validated terms
 

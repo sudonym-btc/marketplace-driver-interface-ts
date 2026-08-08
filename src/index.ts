@@ -449,7 +449,10 @@ export type MarketplaceDriverFinancialActionReceipt = {
   operationId: string
   /** Provider quote, transaction, melt, or other externally verifiable id. */
   externalId?: string
-  /** Public, non-secret evidence needed to reconcile the completed action. */
+  /**
+   * Driver-local reconciliation evidence. Generic runtimes MUST NOT publish or
+   * persist this arbitrary object without an explicit, schema-specific review.
+   */
   evidence?: Record<string, unknown>
 }
 
@@ -457,8 +460,11 @@ export type MarketplaceDriverAuctionSettlementResult<Proof extends MarketplaceDr
   proof: Proof
   /** Proof that the requested financial action actually completed. */
   receipt: MarketplaceDriverFinancialActionReceipt
+  /** Driver-local details; generic runtimes MUST NOT expose these by default. */
   inputs?: Array<Record<string, unknown>>
+  /** Driver-local details; generic runtimes MUST NOT expose these by default. */
   outputs?: Array<Record<string, unknown>>
+  /** Driver-local details; generic runtimes MUST NOT expose these by default. */
   data?: Record<string, unknown>
 }
 
