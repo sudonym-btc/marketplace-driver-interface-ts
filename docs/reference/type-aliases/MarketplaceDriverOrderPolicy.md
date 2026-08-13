@@ -2,8 +2,6 @@
 
 > **MarketplaceDriverOrderPolicy**\<`State`, `Policy`, `Asset`, `Intent`, `ValidationRequest`, `ValidationResult`, `SweepInput`, `SweepState`, `SettlementIntent`, `SettlementState`, `SwapResumeContext`, `SwapResumeState`, `ArbitrationIntent`, `ArbitrationState`\> = [`MarketplaceDriverPolicy`](MarketplaceDriverPolicy.md)\<`State`, `Policy`, `Asset`, `Intent`, `ValidationRequest`, `ValidationResult`, `SweepInput`, `SweepState`, `SettlementIntent`, `SettlementState`, `SwapResumeContext`, `SwapResumeState`\> & `object`
 
-Defined in: [index.ts:538](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L538)
-
 ## Type Declaration
 
 ### arbitrate?

@@ -2,8 +2,6 @@
 
 > **MarketplaceDriverAuctionSettlementIntent**\<`Proof`, `Expected`\> = `object`
 
-Defined in: [index.ts:400](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L400)
-
 ## Type Parameters
 
 ### Proof
@@ -20,15 +18,11 @@ Defined in: [index.ts:400](https://github.com/sudonym-btc/marketplace-driver-int
 
 > **action**: `"auction_refund"` \| `"auction_promote"`
 
-Defined in: [index.ts:405](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L405)
-
 ***
 
 ### bid?
 
 > `optional` **bid?**: `unknown`
-
-Defined in: [index.ts:408](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L408)
 
 ***
 
@@ -36,15 +30,11 @@ Defined in: [index.ts:408](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **data?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [index.ts:419](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L419)
-
 ***
 
 ### expected?
 
 > `optional` **expected?**: `Expected`
-
-Defined in: [index.ts:411](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L411)
 
 ***
 
@@ -52,7 +42,13 @@ Defined in: [index.ts:411](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **group?**: `unknown`
 
-Defined in: [index.ts:407](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L407)
+***
+
+### operationId
+
+> **operationId**: `string`
+
+Stable retry key chosen by the runtime for this financial action.
 
 ***
 
@@ -60,15 +56,11 @@ Defined in: [index.ts:407](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **payment?**: `unknown`
 
-Defined in: [index.ts:409](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L409)
-
 ***
 
 ### proof
 
 > **proof**: `Proof`
-
-Defined in: [index.ts:410](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L410)
 
 ***
 
@@ -76,15 +68,11 @@ Defined in: [index.ts:410](https://github.com/sudonym-btc/marketplace-driver-int
 
 > **purpose**: `"bid"`
 
-Defined in: [index.ts:404](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L404)
-
 ***
 
 ### recycleArgs?
 
 > `optional` **recycleArgs?**: `unknown`
-
-Defined in: [index.ts:418](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L418)
 
 ***
 
@@ -92,15 +80,11 @@ Defined in: [index.ts:418](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **refundPercent?**: `number`
 
-Defined in: [index.ts:413](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L413)
-
 ***
 
 ### seed?
 
 > `optional` **seed?**: `string`
-
-Defined in: [index.ts:406](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L406)
 
 ***
 
@@ -108,15 +92,11 @@ Defined in: [index.ts:406](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **targetOrderGroupId?**: `string`
 
-Defined in: [index.ts:416](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L416)
-
 ***
 
 ### targetTradeId?
 
 > `optional` **targetTradeId?**: `string`
-
-Defined in: [index.ts:415](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L415)
 
 ***
 
@@ -124,20 +104,14 @@ Defined in: [index.ts:415](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **targetUnlockAt?**: `number`
 
-Defined in: [index.ts:417](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L417)
-
 ***
 
 ### validation?
 
 > `optional` **validation?**: `unknown`
 
-Defined in: [index.ts:412](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L412)
-
 ***
 
 ### winner?
 
 > `optional` **winner?**: `unknown`
-
-Defined in: [index.ts:414](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L414)

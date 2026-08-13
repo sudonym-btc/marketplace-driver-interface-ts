@@ -2,8 +2,6 @@
 
 > **MarketplaceDriverAuctionSettlementResult**\<`Proof`\> = `object`
 
-Defined in: [index.ts:422](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L422)
-
 ## Type Parameters
 
 ### Proof
@@ -16,7 +14,7 @@ Defined in: [index.ts:422](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **data?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [index.ts:426](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L426)
+Driver-local details; generic runtimes MUST NOT expose these by default.
 
 ***
 
@@ -24,7 +22,7 @@ Defined in: [index.ts:426](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **inputs?**: `Record`\<`string`, `unknown`\>[]
 
-Defined in: [index.ts:424](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L424)
+Driver-local details; generic runtimes MUST NOT expose these by default.
 
 ***
 
@@ -32,7 +30,7 @@ Defined in: [index.ts:424](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **outputs?**: `Record`\<`string`, `unknown`\>[]
 
-Defined in: [index.ts:425](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L425)
+Driver-local details; generic runtimes MUST NOT expose these by default.
 
 ***
 
@@ -40,4 +38,10 @@ Defined in: [index.ts:425](https://github.com/sudonym-btc/marketplace-driver-int
 
 > **proof**: `Proof`
 
-Defined in: [index.ts:423](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L423)
+***
+
+### receipt
+
+> **receipt**: [`MarketplaceDriverFinancialActionReceipt`](MarketplaceDriverFinancialActionReceipt.md)
+
+Proof that the requested financial action actually completed.

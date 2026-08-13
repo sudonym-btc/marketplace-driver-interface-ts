@@ -2,8 +2,6 @@
 
 > **MarketplaceDriverPolicy**\<`State`, `Policy`, `Asset`, `Intent`, `ValidationRequest`, `ValidationResult`, `SweepInput`, `SweepState`, `SettlementIntent`, `SettlementState`, `SwapResumeContext`, `SwapResumeState`\> = `object`
 
-Defined in: [index.ts:502](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L502)
-
 ## Type Parameters
 
 ### State
@@ -60,8 +58,6 @@ Defined in: [index.ts:502](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **discoverHighWatermark?**: (`context`) => [`MarketplaceDriverWatermarkDiscovery`](MarketplaceDriverWatermarkDiscovery.md) \| `Promise`\<[`MarketplaceDriverWatermarkDiscovery`](MarketplaceDriverWatermarkDiscovery.md)\>
 
-Defined in: [index.ts:523](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L523)
-
 #### Parameters
 
 ##### context
@@ -78,15 +74,11 @@ Defined in: [index.ts:523](https://github.com/sudonym-btc/marketplace-driver-int
 
 > **family**: `"escrow"` \| `"auction"` \| `string`
 
-Defined in: [index.ts:520](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L520)
-
 ***
 
 ### id?
 
 > `optional` **id?**: `string`
-
-Defined in: [index.ts:517](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L517)
 
 ***
 
@@ -94,15 +86,17 @@ Defined in: [index.ts:517](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **label?**: `string`
 
-Defined in: [index.ts:518](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L518)
-
 ***
 
 ### method
 
 > **method**: `string`
 
-Defined in: [index.ts:516](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L516)
+***
+
+### proofSensitivity?
+
+> `optional` **proofSensitivity?**: [`MarketplaceDriverProofSensitivity`](MarketplaceDriverProofSensitivity.md)
 
 ***
 
@@ -110,15 +104,11 @@ Defined in: [index.ts:516](https://github.com/sudonym-btc/marketplace-driver-int
 
 > **purpose**: `"order"` \| `"bid"`
 
-Defined in: [index.ts:519](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L519)
-
 ***
 
 ### resumeSwapOperations?
 
 > `optional` **resumeSwapOperations?**: (`context`) => `AsyncIterable`\<`SwapResumeState`\> \| `Promise`\<`AsyncIterable`\<`SwapResumeState`\>\>
-
-Defined in: [index.ts:529](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L529)
 
 #### Parameters
 
@@ -136,8 +126,6 @@ Defined in: [index.ts:529](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **settlePayment?**: (`payment`) => `AsyncIterable`\<`SettlementState`\> \| `Promise`\<`AsyncIterable`\<`SettlementState`\>\>
 
-Defined in: [index.ts:534](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L534)
-
 #### Parameters
 
 ##### payment
@@ -153,8 +141,6 @@ Defined in: [index.ts:534](https://github.com/sudonym-btc/marketplace-driver-int
 ### startup?
 
 > `optional` **startup?**: (`context`) => `void` \| [`MarketplaceDriverStartResult`](MarketplaceDriverStartResult.md) \| `Promise`\<`void` \| [`MarketplaceDriverStartResult`](MarketplaceDriverStartResult.md)\>
-
-Defined in: [index.ts:526](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L526)
 
 #### Parameters
 
@@ -172,8 +158,6 @@ Defined in: [index.ts:526](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **sweepPayment?**: (`payment`) => `AsyncIterable`\<`SweepState`\> \| `Promise`\<`AsyncIterable`\<`SweepState`\>\>
 
-Defined in: [index.ts:533](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L533)
-
 #### Parameters
 
 ##### payment
@@ -189,8 +173,6 @@ Defined in: [index.ts:533](https://github.com/sudonym-btc/marketplace-driver-int
 ### validatePayment?
 
 > `optional` **validatePayment?**: (`request`) => `Promise`\<`ValidationResult`\>
-
-Defined in: [index.ts:535](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L535)
 
 #### Parameters
 
@@ -208,8 +190,6 @@ Defined in: [index.ts:535](https://github.com/sudonym-btc/marketplace-driver-int
 
 > **assets**(): `Asset`[]
 
-Defined in: [index.ts:522](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L522)
-
 #### Returns
 
 `Asset`[]
@@ -219,8 +199,6 @@ Defined in: [index.ts:522](https://github.com/sudonym-btc/marketplace-driver-int
 ### pay()
 
 > **pay**(`intent`): `AsyncIterable`\<`State`, `any`, `any`\> \| `Promise`\<`AsyncIterable`\<`State`, `any`, `any`\>\>
-
-Defined in: [index.ts:532](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L532)
 
 #### Parameters
 
@@ -237,8 +215,6 @@ Defined in: [index.ts:532](https://github.com/sudonym-btc/marketplace-driver-int
 ### policies()
 
 > **policies**(): `Policy`[]
-
-Defined in: [index.ts:521](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L521)
 
 #### Returns
 

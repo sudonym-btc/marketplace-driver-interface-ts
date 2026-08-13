@@ -2,23 +2,17 @@
 
 > **MarketplaceDriverValidationExpected** = `object`
 
-Defined in: [index.ts:207](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L207)
-
 ## Properties
 
 ### amount?
 
 > `optional` **amount?**: [`MarketplaceDriverAmount`](MarketplaceDriverAmount.md)
 
-Defined in: [index.ts:211](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L211)
-
 ***
 
 ### asset?
 
 > `optional` **asset?**: `object`
-
-Defined in: [index.ts:212](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L212)
 
 #### assetId?
 
@@ -41,8 +35,6 @@ Defined in: [index.ts:212](https://github.com/sudonym-btc/marketplace-driver-int
 ### contract?
 
 > `optional` **contract?**: `object`
-
-Defined in: [index.ts:218](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L218)
 
 #### address?
 
@@ -70,23 +62,17 @@ Defined in: [index.ts:218](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **fee?**: [`MarketplaceDriverAmount`](MarketplaceDriverAmount.md)
 
-Defined in: [index.ts:230](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L230)
-
 ***
 
 ### listingAnchor?
 
 > `optional` **listingAnchor?**: `string`
 
-Defined in: [index.ts:210](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L210)
-
 ***
 
 ### participants?
 
 > `optional` **participants?**: `object`
-
-Defined in: [index.ts:225](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L225)
 
 #### arbiter?
 
@@ -106,12 +92,8 @@ Defined in: [index.ts:225](https://github.com/sudonym-btc/marketplace-driver-int
 
 > `optional` **settlementId?**: `string`
 
-Defined in: [index.ts:208](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L208)
-
 ***
 
 ### tradeId?
 
 > `optional` **tradeId?**: `string`
-
-Defined in: [index.ts:209](https://github.com/sudonym-btc/marketplace-driver-interface-ts/blob/e20243c9ce217d242f8f69103cc3eac2c768b752/src/index.ts#L209)
