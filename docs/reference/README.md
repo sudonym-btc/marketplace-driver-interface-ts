@@ -25,6 +25,7 @@
 - [MarketplaceDriverLogLevel](type-aliases/MarketplaceDriverLogLevel.md)
 - [MarketplaceDriverLogMethod](type-aliases/MarketplaceDriverLogMethod.md)
 - [MarketplaceDriverOrderPolicy](type-aliases/MarketplaceDriverOrderPolicy.md)
+- [MarketplaceDriverOrderSettlementAction](type-aliases/MarketplaceDriverOrderSettlementAction.md)
 - [MarketplaceDriverPaymentIntent](type-aliases/MarketplaceDriverPaymentIntent.md)
 - [MarketplaceDriverPaymentProgressData](type-aliases/MarketplaceDriverPaymentProgressData.md)
 - [MarketplaceDriverPaymentProgressStage](type-aliases/MarketplaceDriverPaymentProgressStage.md)

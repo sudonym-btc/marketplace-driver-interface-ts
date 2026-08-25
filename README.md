@@ -62,6 +62,21 @@ successful settlement. Receipt evidence and result `inputs`, `outputs`, and
 `data` are driver-local objects; a generic runtime must not copy them into a
 public event or durable journal without an explicit schema-specific allowlist.
 
+Order drivers that expose a settlement hook must also opt into each action the
+runtime may present to an operator:
+
+```ts
+const policy: MarketplaceDriverOrderPolicy = {
+  // ...payment and validation hooks...
+  settlementActions: ['release', 'refund'],
+  settlePayment,
+}
+```
+
+Omitting `settlementActions` means that no interactive financial action is
+available. Runtimes must not infer capabilities merely because
+`settlePayment()` or `arbitrate()` exists.
+
 ## Validated terms
 
 Successful validators SHOULD return `terms` with the proof-local facts they

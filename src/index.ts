@@ -376,6 +376,15 @@ export type MarketplaceDriverPaymentSettlementOutput = {
   data?: Record<string, unknown>
 }
 
+/**
+ * Order settlement actions a driver explicitly supports.
+ *
+ * Runtimes MUST NOT infer these capabilities from the presence of a generic
+ * settlement hook. Financial-action UIs should remain fail-closed when this
+ * declaration is absent.
+ */
+export type MarketplaceDriverOrderSettlementAction = 'release' | 'refund' | 'split' | 'timeout_claim'
+
 export type MarketplaceDriverPaymentSettlementIntent<
   Proof extends MarketplaceDriverPaymentProof = MarketplaceDriverPaymentProof,
   Expected extends MarketplaceDriverValidationExpected = MarketplaceDriverValidationExpected,
@@ -609,6 +618,8 @@ export type MarketplaceDriverOrderPolicy<
 > & {
   purpose: 'order'
   family: 'escrow'
+  /** Explicitly supported order settlement actions. Omission means none. */
+  settlementActions?: readonly MarketplaceDriverOrderSettlementAction[]
   arbitrate?: (intent: ArbitrationIntent) => AsyncIterable<ArbitrationState> | Promise<AsyncIterable<ArbitrationState>>
 }
 

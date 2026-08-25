@@ -26,6 +26,12 @@
 
 > **purpose**: `"order"`
 
+### settlementActions?
+
+> `optional` **settlementActions?**: readonly [`MarketplaceDriverOrderSettlementAction`](MarketplaceDriverOrderSettlementAction.md)[]
+
+Explicitly supported order settlement actions. Omission means none.
+
 ## Type Parameters
 
 ### State
