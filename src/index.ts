@@ -396,6 +396,8 @@ export type MarketplaceDriverPaymentSettlementIntent<
   createdAt: number
   action: string
   proof: Proof
+  /** Resolves protected proof params without replacing the privacy-preserving proof. */
+  decryptParams?: MarketplaceDriverPaymentProofParamsDecryptor
   amount: MarketplaceDriverAmount
   expected?: Expected
   outputs?: MarketplaceDriverPaymentSettlementOutput[]
@@ -620,6 +622,10 @@ export type MarketplaceDriverOrderPolicy<
   family: 'escrow'
   /** Explicitly supported order settlement actions. Omission means none. */
   settlementActions?: readonly MarketplaceDriverOrderSettlementAction[]
+  /** Narrows static capabilities for one validated payment. Omission uses the static list. */
+  settlementActionsForPayment?: (
+    request: ValidationRequest,
+  ) => readonly MarketplaceDriverOrderSettlementAction[] | Promise<readonly MarketplaceDriverOrderSettlementAction[]>
   arbitrate?: (intent: ArbitrationIntent) => AsyncIterable<ArbitrationState> | Promise<AsyncIterable<ArbitrationState>>
 }
 

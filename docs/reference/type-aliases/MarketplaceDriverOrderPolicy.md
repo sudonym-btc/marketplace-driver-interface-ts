@@ -32,6 +32,22 @@
 
 Explicitly supported order settlement actions. Omission means none.
 
+### settlementActionsForPayment?
+
+> `optional` **settlementActionsForPayment?**: (`request`) => readonly [`MarketplaceDriverOrderSettlementAction`](MarketplaceDriverOrderSettlementAction.md)[] \| `Promise`\<readonly [`MarketplaceDriverOrderSettlementAction`](MarketplaceDriverOrderSettlementAction.md)[]\>
+
+Narrows static capabilities for one validated payment. Omission uses the static list.
+
+#### Parameters
+
+##### request
+
+`ValidationRequest`
+
+#### Returns
+
+readonly [`MarketplaceDriverOrderSettlementAction`](MarketplaceDriverOrderSettlementAction.md)[] \| `Promise`\<readonly [`MarketplaceDriverOrderSettlementAction`](MarketplaceDriverOrderSettlementAction.md)[]\>
+
 ## Type Parameters
 
 ### State

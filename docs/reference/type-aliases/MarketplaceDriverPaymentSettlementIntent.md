@@ -38,6 +38,14 @@
 
 ***
 
+### decryptParams?
+
+> `optional` **decryptParams?**: [`MarketplaceDriverPaymentProofParamsDecryptor`](MarketplaceDriverPaymentProofParamsDecryptor.md)
+
+Resolves protected proof params without replacing the privacy-preserving proof.
+
+***
+
 ### expected?
 
 > `optional` **expected?**: `Expected`

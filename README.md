@@ -37,10 +37,12 @@ export type MarketplaceDriverEncryptedPaymentProofParams = {
 }
 ```
 
-When `params.encrypted === true`, adapters pass `decryptParams` on
-`MarketplaceDriverValidationRequest`. Concrete drivers should call
+When `params.encrypted === true`, adapters pass `decryptParams` on validation
+requests, per-payment action checks, and settlement intents. Concrete drivers
+should call
 `resolveMarketplaceDriverPaymentProofParams(request.proof, request.decryptParams)`
-before reading method-specific fields.
+before reading method-specific fields, while returning the original protected
+proof so a settlement event does not disclose the resolved params.
 
 Policies declare their minimum proof disclosure with `proofSensitivity`:
 
@@ -69,6 +71,7 @@ runtime may present to an operator:
 const policy: MarketplaceDriverOrderPolicy = {
   // ...payment and validation hooks...
   settlementActions: ['release', 'refund'],
+  settlementActionsForPayment: request => actionsAuthorizedFor(request),
   settlePayment,
 }
 ```
@@ -76,6 +79,10 @@ const policy: MarketplaceDriverOrderPolicy = {
 Omitting `settlementActions` means that no interactive financial action is
 available. Runtimes must not infer capabilities merely because
 `settlePayment()` or `arbitrate()` exists.
+`settlementActionsForPayment()` may only narrow the static list for a validated
+payment; runtimes ignore actions it returns that were not declared statically.
+Use it when authorization depends on proof-local state, such as whether the
+configured signer is the payment's EVM arbiter.
 
 ## Validated terms
 
