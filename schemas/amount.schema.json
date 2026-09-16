@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MarketplaceAmount",
+  "description": "An exact amount in the denomination's smallest unit. Decimal notation is only a display format.",
+  "type": "object",
+  "required": ["value", "denomination", "decimals"],
+  "properties": {
+    "value": {
+      "type": "string",
+      "pattern": "^(0|-?[1-9][0-9]*)$",
+      "description": "Canonical integer-unit string; never a JSON number or decimal fraction."
+    },
+    "denomination": { "type": "string", "minLength": 1 },
+    "decimals": { "type": "integer", "minimum": 0, "maximum": 255 },
+    "currency": { "type": "string", "minLength": 1 }
+  }
+}

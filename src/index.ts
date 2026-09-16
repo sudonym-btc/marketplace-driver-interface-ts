@@ -1,9 +1,7 @@
-export type MarketplaceDriverAmount = {
-  value: string
-  currency?: string
-  denomination: string
-  decimals: number
-}
+import type { MarketplaceAmount } from './amount.generated.js'
+export { parseIntegerUnits, parseMarketplaceAmount, type MarketplaceAmount } from './amount.generated.js'
+
+export type MarketplaceDriverAmount = MarketplaceAmount
 
 export type MarketplaceDriverLogLevel = 'debug' | 'info' | 'warn' | 'error'
 
@@ -124,11 +122,7 @@ export type MarketplaceDriverPaymentProofParams =
   | Record<string, unknown>
   | MarketplaceDriverEncryptedPaymentProofParams
 
-export type MarketplaceDriverPaymentTermAmount = {
-  value: string
-  denomination: string
-  decimals: number
-  currency?: string
+export type MarketplaceDriverPaymentTermAmount = MarketplaceAmount & {
   assetId?: string
 }
 

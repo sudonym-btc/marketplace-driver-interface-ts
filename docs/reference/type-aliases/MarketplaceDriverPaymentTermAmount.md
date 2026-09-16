@@ -1,33 +1,9 @@
 # Type Alias: MarketplaceDriverPaymentTermAmount
 
-> **MarketplaceDriverPaymentTermAmount** = `object`
+> **MarketplaceDriverPaymentTermAmount** = [`MarketplaceAmount`](MarketplaceAmount.md) & `object`
 
-## Properties
+## Type Declaration
 
 ### assetId?
 
 > `optional` **assetId?**: `string`
-
-***
-
-### currency?
-
-> `optional` **currency?**: `string`
-
-***
-
-### decimals
-
-> **decimals**: `number`
-
-***
-
-### denomination
-
-> **denomination**: `string`
-
-***
-
-### value
-
-> **value**: `string`

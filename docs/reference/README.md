@@ -6,6 +6,7 @@
 
 ## Type Aliases
 
+- [MarketplaceAmount](type-aliases/MarketplaceAmount.md)
 - [MarketplaceDriverAmount](type-aliases/MarketplaceDriverAmount.md)
 - [MarketplaceDriverAsset](type-aliases/MarketplaceDriverAsset.md)
 - [MarketplaceDriverAuctionPolicy](type-aliases/MarketplaceDriverAuctionPolicy.md)
@@ -74,4 +75,6 @@
 ## Functions
 
 - [isMarketplaceDriverEncryptedPaymentProofParams](functions/isMarketplaceDriverEncryptedPaymentProofParams.md)
+- [parseIntegerUnits](functions/parseIntegerUnits.md)
+- [parseMarketplaceAmount](functions/parseMarketplaceAmount.md)
 - [resolveMarketplaceDriverPaymentProofParams](functions/resolveMarketplaceDriverPaymentProofParams.md)
